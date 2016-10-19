@@ -6,18 +6,22 @@ public class Billet {
 	
 	Date dateDepart;
 	Date dateArrivee;
-	String lieuxArrive;
+	String lieuDepart;
+	String lieuArrive;
 	Float prixMin;
+	String compagnie;
 	
 	public Billet(){
 		
 	}
 	
-	public Billet(Date dateDepart, Date dateArrivee, String lieuxArrive, Float prixMin){
+	public Billet(Date dateDepart, Date dateArrivee, String lieuDepart, String lieuArrive, Float prixMin, String compagnie){
 		this.dateDepart = dateDepart;
 		this.dateArrivee = dateArrivee;
-		this.lieuxArrive = lieuxArrive;
+		this.lieuDepart = lieuDepart;
+		this.lieuArrive = lieuArrive;
 		this.prixMin = prixMin;
+		this.compagnie = compagnie;
 	}
 
 	public Date getDateDepart() {
@@ -35,13 +39,21 @@ public class Billet {
 	public void setDateArrivee(Date dateArrivee) {
 		this.dateArrivee = dateArrivee;
 	}
-
-	public String getLieuxArrive() {
-		return lieuxArrive;
+	
+	public String getLieuDepart() {
+		return lieuDepart;
 	}
 
-	public void setLieuxArrive(String lieuxArrive) {
-		this.lieuxArrive = lieuxArrive;
+	public void setLieuDepart(String lieuDepart) {
+		this.lieuDepart = lieuDepart;
+	}
+
+	public String getLieuArrive() {
+		return lieuArrive;
+	}
+
+	public void setLieuArrive(String lieuArrive) {
+		this.lieuArrive = lieuArrive;
 	}
 
 	public Float getPrixMin() {
@@ -51,6 +63,12 @@ public class Billet {
 	public void setPrixMin(Float prixMin) {
 		this.prixMin = prixMin;
 	}
-	
-	
+
+	public String getCompagnie() {
+		return compagnie;
+	}
+
+	public void setCompagnie(String compagnie) {
+		this.compagnie = compagnie;
+	}	
 }
