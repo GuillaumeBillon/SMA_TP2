@@ -20,7 +20,8 @@ public class Negociateur extends Agent {
 
 	}
 	
-	public Negociateur(List<Fournisseur> listFourni, String depart, String destination, Float budget, Date dateLimiteAchat, List<String> compagnieAcceptee, List<String> compagnieRefusee){
+	public Negociateur(String nom, List<Fournisseur> listFourni, String depart, String destination, Float budget, Date dateLimiteAchat, List<String> compagnieAcceptee, List<String> compagnieRefusee){
+		this.nom = nom;
 		this.listFourni = listFourni;
 		this.depart = depart;
 		this.destination = destination;
@@ -34,7 +35,7 @@ public class Negociateur extends Agent {
 		boolean offreAccepte = false;
 		
 		// Envoie de l'appel d'offre à  tous les fournisseurs
-		Message msgAppel = new Message(this, null, Act.APPEL);
+		Message msgAppel = new Message(this, null, Act.APPEL, null);
 		for(int i = 0; i <  listFourni.size(); i++){
 			listFourni.get(i).getBoiteAuxLettres().getBoite().add(msgAppel);
 		}
@@ -47,7 +48,7 @@ public class Negociateur extends Agent {
 			}
 			else {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(5000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

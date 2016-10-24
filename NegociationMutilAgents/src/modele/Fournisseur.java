@@ -2,6 +2,8 @@ package modele;
 
 import java.util.List;
 
+import utils.Act;
+
 public class Fournisseur extends Agent {
 	// ATTRIBUTS
 	List<Negociateur> listeNego;
@@ -14,7 +16,8 @@ public class Fournisseur extends Agent {
 		
 	}
 	
-	public Fournisseur(List<Negociateur> listeNego, Service service, Float prixDepart, long freqSoummission) {
+	public Fournisseur(String nom, List<Negociateur> listeNego, Service service, Float prixDepart, long freqSoummission) {
+		this.nom = nom;
 		this.listeNego = listeNego;
 		this.service = service;
 		this.prixDepart = prixDepart;
@@ -23,7 +26,32 @@ public class Fournisseur extends Agent {
 	
 	// METHODES
 	public void run(){
-		
+		while(true){
+			if(boiteAuxLettres.messageNonLu()){
+				for(Message m : boiteAuxLettres.getBoite()){
+					if(!m.isLu()){
+						// Si le message est un APPEL
+						if(m.getAct().equalsIgnoreCase(Act.APPEL)){
+							Negociateur n = (Negociateur) m.getEmetteur();
+							// Test si on possède une offre pour le négociteur
+							if(service.testFounisseurPossedeDestinationDeNegociateur(n)){
+								// Création et envoie de l'offre
+								Message msgPropose = new Message(this, n, Act.PROPOSE, prixDepart);
+								n.boiteAuxLettres.getBoite().add(msgPropose);
+							}	
+							m.setLu(true);
+						}
+					}
+				}
+			}
+			else {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public List<Negociateur> getListeNego() {

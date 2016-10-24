@@ -21,12 +21,12 @@ public class Main {
 		service.getListeBillets().add(b1);
 		
 		// CREATION DES NEGOCIATEURS
-		Negociateur n1 = new Negociateur(null, "Paris", "Moscou", (float) 500, new Date(1,11,2016), Catalogue.getListeCompagnies(), new ArrayList<String>());
+		Negociateur n1 = new Negociateur("Michel",null, "Paris", "Moscou", (float) 500, new Date(1,11,2016), Catalogue.getListeCompagnies(), new ArrayList<String>());
 		List<Negociateur> listeNego = new ArrayList<Negociateur>();
 		listeNego.add(n1);
 		
 		// CREATION DES FOURNISSEURS
-		Fournisseur f1 = new Fournisseur(listeNego, service, (float) 800, 1000);
+		Fournisseur f1 = new Fournisseur("Robert Négo",listeNego, service, (float) 800, 1000);
 		List<Fournisseur> listeFourni = new ArrayList<Fournisseur>();
 		listeFourni.add(f1);
 		
