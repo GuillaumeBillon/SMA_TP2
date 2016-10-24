@@ -3,8 +3,10 @@ package modele;
 import java.util.List;
 
 public class Service {
+	// ATTRIBUTS
 	List<Billet> listeBillets;
 	
+	// CONSTRUCTEURS
 	public Service() {
 	}
 	
@@ -12,6 +14,7 @@ public class Service {
 		this.listeBillets = listeBillets;
 	}
 
+	// METHODES
 	public List<Billet> getListeBillets() {
 		return listeBillets;
 	}

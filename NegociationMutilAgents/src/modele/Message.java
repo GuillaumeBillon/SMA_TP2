@@ -5,25 +5,26 @@ import utils.Act;
 import utils.Performatif;
 
 public class Message {
-
-	// Attributs
+	// ATTRIBUTS
 	Agent emetteur;
 	Agent recepteur;
 	String performatif = Performatif.REQUEST;
 	String act;
 	boolean lu;
 	
-	// Constructeurs
+	// CONSTRUCTEURS
 	public Message(){
 	}
 	
-	public Message(Agent emetteur, Agent recepteur){
+	public Message(Agent emetteur, Agent recepteur, String act){
 		this.emetteur = emetteur;
 		this.recepteur = recepteur;
 		this.lu = false;
+		this.act = act;
+		System.out.println("Envoi de "+ act);
 	}
 	
-	// Méthodes
+	// METHODES
 	public Agent getEmetteur() {
 		return emetteur;
 	}

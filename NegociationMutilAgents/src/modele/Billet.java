@@ -3,7 +3,7 @@ package modele;
 import java.util.Date;
 
 public class Billet {
-	
+	// ATTRIBUTS
 	Date dateDepart;
 	Date dateArrivee;
 	String lieuDepart;
@@ -11,10 +11,12 @@ public class Billet {
 	Float prixMin;
 	String compagnie;
 	
+	// CONSTRUCTEURS
 	public Billet(){
 		
 	}
 	
+	// METHODES	
 	public Billet(Date dateDepart, Date dateArrivee, String lieuDepart, String lieuArrive, Float prixMin, String compagnie){
 		this.dateDepart = dateDepart;
 		this.dateArrivee = dateArrivee;

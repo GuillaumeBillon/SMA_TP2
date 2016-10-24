@@ -1,10 +1,11 @@
 package modele;
 
 public abstract class Agent extends Thread{
-	
+	// ATTRIBUTS
 	String nom;
 	Boite boiteAuxLettres = new Boite();
 	
+	// CONSTRUCTEURS
 	public Agent(){
 		
 	}
@@ -14,6 +15,7 @@ public abstract class Agent extends Thread{
 		this.boiteAuxLettres = boiteAuxLettres;
 	}
 
+	// METHODES
 	public String getNom() {
 		return nom;
 	}

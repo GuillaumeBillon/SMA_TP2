@@ -3,7 +3,10 @@ package modele;
 import java.util.Date;
 import java.util.List;
 
+import utils.Act;
+
 public class Negociateur extends Agent {
+	// ATTRIBUTS
 	List<Fournisseur> listFourni;
 	String depart;
 	String destination;
@@ -12,6 +15,7 @@ public class Negociateur extends Agent {
 	List<String> compagnieAcceptee;
 	List<String> compagnieRefusee;
 	
+	// CONSTRUCTEURS
 	public Negociateur() {
 
 	}
@@ -27,9 +31,31 @@ public class Negociateur extends Agent {
 	}
 	
 	public void run(){
+		boolean offreAccepte = false;
 		
+		// Envoie de l'appel d'offre à  tous les fournisseurs
+		Message msgAppel = new Message(this, null, Act.APPEL);
+		for(int i = 0; i <  listFourni.size(); i++){
+			listFourni.get(i).getBoiteAuxLettres().getBoite().add(msgAppel);
+		}
+		
+		// Tant que le négociateur n'a pas trouvé d'offre satisfaisante
+		while(!offreAccepte){
+			// On regarde si on a reçu des messages
+			if(boiteAuxLettres.messageNonLu()){
+				
+			}
+			else {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
+	// METHODES
 	public List<Fournisseur> getListFourni() {
 		return listFourni;
 	}

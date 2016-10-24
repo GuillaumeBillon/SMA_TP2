@@ -3,11 +3,10 @@ package modele;
 import java.util.LinkedList;
 
 public class Boite {
-	
-	// Attributs
+	// ATTRIBUTS
 	LinkedList<Message> boite = new LinkedList<Message>();
 	
-	// Constructeurs
+	// CONSTRUCTEURS
 	public Boite(){
 	}
 	
@@ -15,7 +14,7 @@ public class Boite {
 		this.boite = boite;
 	}
 	
-	// Méthodes
+	// METHODES
 	public boolean messageNonLu(){
 		for(Message m : boite){
 			if(!m.isLu()){
