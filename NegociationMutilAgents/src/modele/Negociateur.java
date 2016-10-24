@@ -35,16 +35,38 @@ public class Negociateur extends Agent {
 		boolean offreAccepte = false;
 		
 		// Envoie de l'appel d'offre à  tous les fournisseurs
-		Message msgAppel = new Message(this, null, Act.APPEL, null);
+		Message msgAppel = new Message(this, null, Act.APPEL, null, 0);
 		for(int i = 0; i <  listFourni.size(); i++){
 			listFourni.get(i).getBoiteAuxLettres().getBoite().add(msgAppel);
 		}
 		
 		// Tant que le négociateur n'a pas trouvé d'offre satisfaisante
 		while(!offreAccepte){
+			// Attente pour recevoir les différentes offres
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			// On regarde si on a reçu des messages
 			if(boiteAuxLettres.messageNonLu()){
-				
+				for(Message m : boiteAuxLettres.getBoite()){
+					if(!m.isLu()){
+						// Si le message est une PROPOSE
+						if(m.getAct().equalsIgnoreCase(Act.PROPOSE)){
+							Fournisseur f = (Fournisseur) m.getEmetteur();
+							if(m.getProposition() <= (budget - (budget * 50/100))){
+								Message msgAcceptation = new Message(this, f, Act.ACCEPTATION, m.getProposition(), m.getNumeroOffre());
+								f.getBoiteAuxLettres().getBoite().add(msgAcceptation);
+							}
+							else {
+								Message msgContreProp = new Message(this, f, Act.CONTRE_PROPOSITION, (budget - (budget * (10 - m.getNumeroOffre())/10)), m.getNumeroOffre());
+								f.getBoiteAuxLettres().getBoite().add(msgContreProp);
+							}
+							m.setLu(true);
+						}
+					}
+				}
 			}
 			else {
 				try {

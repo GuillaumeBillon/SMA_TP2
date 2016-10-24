@@ -12,22 +12,29 @@ public class Message {
 	String act;
 	boolean lu;
 	Float proposition;
+	int numeroOffre;
 	
 	// CONSTRUCTEURS
 	public Message(){
 	}
 	
-	public Message(Agent emetteur, Agent recepteur, String act, Float proposition){
+	public Message(Agent emetteur, Agent recepteur, String act, Float proposition, int numeroOffre){
 		this.emetteur = emetteur;
 		this.recepteur = recepteur;
 		this.lu = false;
 		this.act = act;
 		this.proposition = proposition;
+		this.numeroOffre = numeroOffre;
 		if(emetteur instanceof Negociateur){
-			System.out.println("Negociateur "+ emetteur.getNom() +" : Envoi de "+ act);
+			if(act.equalsIgnoreCase(Act.APPEL)){
+				System.out.println("Negociateur "+ emetteur.getNom() +" : Envoi de "+ act);
+			}
+			else if(act.equalsIgnoreCase(Act.CONTRE_PROPOSITION)){
+				System.out.println("Negociateur "+ emetteur.getNom() +" : Envoi de "+ act + " à "+ recepteur.getNom() + " pour "+ proposition +"€");
+			}
 		}
 		else {
-			System.out.println("Fournisseur "+ emetteur.getNom() +" : Envoi de "+ act + " à "+ recepteur.getNom());
+			System.out.println("Fournisseur "+ emetteur.getNom() +" : Envoi de "+ act + " à "+ recepteur.getNom() + " pour "+ proposition +"€");
 		}
 	}
 	
@@ -78,6 +85,14 @@ public class Message {
 
 	public void setProposition(Float proposition) {
 		this.proposition = proposition;
+	}
+
+	public int getNumeroOffre() {
+		return numeroOffre;
+	}
+
+	public void setNumeroOffre(int numeroOffre) {
+		this.numeroOffre = numeroOffre;
 	}
 	
 }
