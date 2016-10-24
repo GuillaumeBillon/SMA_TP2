@@ -52,7 +52,11 @@ public class Fournisseur extends Agent {
 							// Si on a fait moins de 6 propositions
 							if(m.getNumeroOffre() < 6){
 								// Création d'une nouvelle offre
-								Message msgPropose = new Message(this, n, Act.PROPOSE, (prixDepart - (prixDepart * (10 * m.getNumeroOffre())/100)), m.getNumeroOffre() + 1);
+								float nouvelleProposition = (prixDepart - (prixDepart * (10 * m.getNumeroOffre())/100));
+								if(nouvelleProposition < m.getProposition()){
+									nouvelleProposition = m.getProposition();
+								}
+								Message msgPropose = new Message(this, n, Act.PROPOSE, nouvelleProposition, m.getNumeroOffre() + 1);
 								n.boiteAuxLettres.getBoite().add(msgPropose);
 							}
 							m.setLu(true);

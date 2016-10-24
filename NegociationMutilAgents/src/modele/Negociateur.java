@@ -14,6 +14,7 @@ public class Negociateur extends Agent {
 	Date dateLimiteAchat;
 	List<String> compagnieAcceptee;
 	List<String> compagnieRefusee;
+	Float derniereOffre;
 	
 	// CONSTRUCTEURS
 	public Negociateur() {
@@ -29,6 +30,7 @@ public class Negociateur extends Agent {
 		this.dateLimiteAchat = dateLimiteAchat;
 		this.compagnieAcceptee = compagnieAcceptee;
 		this.compagnieRefusee = compagnieRefusee;
+		this.derniereOffre = (float) 0;
 	}
 	
 	public void run(){
@@ -55,12 +57,14 @@ public class Negociateur extends Agent {
 						// Si le message est une PROPOSE
 						if(m.getAct().equalsIgnoreCase(Act.PROPOSE)){
 							Fournisseur f = (Fournisseur) m.getEmetteur();
-							if(m.getProposition() <= (budget - (budget * 50/100))){
+							if(m.getProposition() <= (budget - (budget * 50/100)) ||  derniereOffre >= m.getProposition()){
 								Message msgAcceptation = new Message(this, f, Act.ACCEPTATION, m.getProposition(), m.getNumeroOffre());
 								f.getBoiteAuxLettres().getBoite().add(msgAcceptation);
+								offreAccepte = true;
 							}
 							else {
-								Message msgContreProp = new Message(this, f, Act.CONTRE_PROPOSITION, (budget - (budget * (10 - m.getNumeroOffre())/10)), m.getNumeroOffre());
+								derniereOffre = (budget - (budget * (6 - m.getNumeroOffre())/10));
+								Message msgContreProp = new Message(this, f, Act.CONTRE_PROPOSITION, derniereOffre, m.getNumeroOffre());
 								f.getBoiteAuxLettres().getBoite().add(msgContreProp);
 							}
 							m.setLu(true);
