@@ -42,6 +42,7 @@ public class Message {
 		else {
 			System.out.println("Fournisseur "+ emetteur.getNom() +" : Envoi de "+ act + " à "+ recepteur.getNom() + " pour "+ proposition +"€");
 		}
+		System.out.flush();
 	}
 	
 	// METHODES

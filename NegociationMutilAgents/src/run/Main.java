@@ -28,9 +28,11 @@ public class Main {
 		// CREATION DES FOURNISSEURS
 		Fournisseur f1 = new Fournisseur("Robert Négo", listeNego, service, 1000, 100);
 		Fournisseur f2 = new Fournisseur("Olivier Négo", listeNego, service, 1000, 200);
+		Fournisseur f3 = new Fournisseur("José Négo", listeNego, service, 1100, 101);
 		List<Fournisseur> listeFourni = new ArrayList<Fournisseur>();
 		listeFourni.add(f1);
 		listeFourni.add(f2);
+		listeFourni.add(f3);
 		
 		// Mise à jour de la liste de fournisseurs pour les négociateurs
 		n1.setListFourni(listeFourni);

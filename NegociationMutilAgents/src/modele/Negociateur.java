@@ -80,7 +80,11 @@ public class Negociateur extends Agent {
 						// Envoie d'un message de refus pour le fournisseur qui propose une offre moins intéressante
 						Message msgRefus = new Message(this, meilleurFournisseur, Act.REFUS, meilleurProposition, numeroMeilleur);
 						meilleurFournisseur.getBoiteAuxLettres().getBoite().add(msgRefus);
-						
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 						meilleurProposition = m.getProposition();
 						meilleurFournisseur = (Fournisseur) m.getEmetteur();
 						numeroMeilleur = m.getNumeroOffre();
