@@ -15,14 +15,14 @@ public class Service {
 	}
 
 	// METHODES
-	public boolean testFounisseurPossedeDestinationDeNegociateur(Negociateur n){
+	public Billet testFounisseurPossedeDestinationDeNegociateur(Negociateur n){
 		for(int i = 0; i < listeBillets.size(); i++){
 			if(listeBillets.get(i).getLieuDepart().equalsIgnoreCase(n.getDepart())
 					&& listeBillets.get(i).getLieuArrive().equalsIgnoreCase(n.getDestination())){
-				return true;
+				return listeBillets.get(i);
 			}
 		}		
-		return false;
+		return null;
 	}
 	
 	public List<Billet> getListeBillets() {

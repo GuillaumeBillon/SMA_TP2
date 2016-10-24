@@ -8,20 +8,20 @@ public class Fournisseur extends Agent {
 	// ATTRIBUTS
 	List<Negociateur> listeNego;
 	Service service;
-	Float prixDepart;
 	Long freqSoummission;
+	int pourcentageAugmentation;
 	
 	// CONSTRUCTEURS
 	public Fournisseur() {
 		
 	}
 	
-	public Fournisseur(String nom, List<Negociateur> listeNego, Service service, Float prixDepart, long freqSoummission) {
+	public Fournisseur(String nom, List<Negociateur> listeNego, Service service, long freqSoummission, int pourcentageAugmentation) {
 		this.nom = nom;
 		this.listeNego = listeNego;
 		this.service = service;
-		this.prixDepart = prixDepart;
 		this.freqSoummission = freqSoummission;
+		this.pourcentageAugmentation = pourcentageAugmentation;
 	}
 	
 	// METHODES
@@ -34,15 +34,19 @@ public class Fournisseur extends Agent {
 						if(m.getAct().equalsIgnoreCase(Act.APPEL)){
 							Negociateur n = (Negociateur) m.getEmetteur();
 							// Test si on possède une offre pour le négociteur
-							if(service.testFounisseurPossedeDestinationDeNegociateur(n)){
+							if(null != service.testFounisseurPossedeDestinationDeNegociateur(n)){
+								Float prixMin = service.testFounisseurPossedeDestinationDeNegociateur(n).getPrixMin();
+								Float prixPropose = prixMin + (prixMin * pourcentageAugmentation / 100);
 								// Création et envoie de l'offre
-								Message msgPropose = new Message(this, n, Act.PROPOSE, prixDepart, 1);
+								Message msgPropose = new Message(this, n, Act.PROPOSE, prixPropose, 1);
 								n.boiteAuxLettres.getBoite().add(msgPropose);
 							}	
 							m.setLu(true);
 						}
 						if(m.getAct().equalsIgnoreCase(Act.CONTRE_PROPOSITION)){
 							Negociateur n = (Negociateur) m.getEmetteur();
+							Float prixMin = service.testFounisseurPossedeDestinationDeNegociateur(n).getPrixMin();
+							Float prixPropose = prixMin + (prixMin * pourcentageAugmentation / 100);
 							// On attend que le temps de la fréquence de soussission passe
 							try {
 								Thread.sleep(freqSoummission);
@@ -52,7 +56,10 @@ public class Fournisseur extends Agent {
 							// Si on a fait moins de 6 propositions
 							if(m.getNumeroOffre() < 6){
 								// Création d'une nouvelle offre
-								float nouvelleProposition = (prixDepart - (prixDepart * (10 * m.getNumeroOffre())/100));
+								Float nouvelleProposition = (prixPropose - (prixPropose * (10 * m.getNumeroOffre())/100));
+								if(nouvelleProposition < prixMin){
+									nouvelleProposition = prixMin;
+								}
 								if(nouvelleProposition < m.getProposition()){
 									nouvelleProposition = m.getProposition();
 								}
@@ -90,20 +97,20 @@ public class Fournisseur extends Agent {
 		this.service = service;
 	}
 
-	public Float getPrixDepart() {
-		return prixDepart;
-	}
-
-	public void setPrixDepart(Float prixDepart) {
-		this.prixDepart = prixDepart;
-	}
-
 	public Long getFreqSoummission() {
 		return freqSoummission;
 	}
 
 	public void setFreqSoummission(Long freqSoummission) {
 		this.freqSoummission = freqSoummission;
+	}
+
+	public int getPourcentageAugmentation() {
+		return pourcentageAugmentation;
+	}
+
+	public void setPourcentageAugmentation(int pourcentageAugmentation) {
+		this.pourcentageAugmentation = pourcentageAugmentation;
 	}
 	
 	

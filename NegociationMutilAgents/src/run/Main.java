@@ -15,7 +15,7 @@ public class Main {
 	public static void main(String[] args){
 		
 		// CREATION DES BILLETS
-		Billet b1 = new Billet(new Date(10,11,2016), new Date(10,11,2016), "Paris", "Moscou", (float) 120, "SNCF");
+		Billet b1 = new Billet(new Date(10,11,2016), new Date(10,11,2016), "Paris", "Moscou", (float) 400, "SNCF");
 		
 		Service service = new Service(new ArrayList<Billet>());
 		service.getListeBillets().add(b1);
@@ -26,7 +26,7 @@ public class Main {
 		listeNego.add(n1);
 		
 		// CREATION DES FOURNISSEURS
-		Fournisseur f1 = new Fournisseur("Robert Négo",listeNego, service, (float) 800, 1000);
+		Fournisseur f1 = new Fournisseur("Robert Négo",listeNego, service, 1000, 100);
 		List<Fournisseur> listeFourni = new ArrayList<Fournisseur>();
 		listeFourni.add(f1);
 		
