@@ -35,6 +35,9 @@ public class Message {
 			else if(act.equalsIgnoreCase(Act.ACCEPTATION)){
 				System.out.println("Negociateur "+ emetteur.getNom() +" : Envoi de "+ act + " à "+ recepteur.getNom() + " pour "+ proposition +"€");
 			}
+			else if(act.equalsIgnoreCase(Act.REFUS)){
+				System.out.println("Negociateur "+ emetteur.getNom() +" : Envoi de "+ act + " à "+ recepteur.getNom() + " pour "+ proposition +"€");
+			}
 		}
 		else {
 			System.out.println("Fournisseur "+ emetteur.getNom() +" : Envoi de "+ act + " à "+ recepteur.getNom() + " pour "+ proposition +"€");

@@ -43,7 +43,7 @@ public class Fournisseur extends Agent {
 							}	
 							m.setLu(true);
 						}
-						if(m.getAct().equalsIgnoreCase(Act.CONTRE_PROPOSITION)){
+						else if(m.getAct().equalsIgnoreCase(Act.CONTRE_PROPOSITION)){
 							Negociateur n = (Negociateur) m.getEmetteur();
 							Float prixMin = service.testFounisseurPossedeDestinationDeNegociateur(n).getPrixMin();
 							Float prixPropose = prixMin + (prixMin * pourcentageAugmentation / 100);
@@ -67,6 +67,9 @@ public class Fournisseur extends Agent {
 								n.boiteAuxLettres.getBoite().add(msgPropose);
 							}
 							m.setLu(true);
+						}
+						else if(m.getAct().equalsIgnoreCase(Act.REFUS)){
+							
 						}
 					}
 				}

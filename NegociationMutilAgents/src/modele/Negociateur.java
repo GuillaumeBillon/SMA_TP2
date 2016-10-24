@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,8 +38,8 @@ public class Negociateur extends Agent {
 		boolean offreAccepte = false;
 		
 		// Envoie de l'appel d'offre à  tous les fournisseurs
-		Message msgAppel = new Message(this, null, Act.APPEL, null, 0);
 		for(int i = 0; i <  listFourni.size(); i++){
+			Message msgAppel = new Message(this, null, Act.APPEL, null, 0);
 			listFourni.get(i).getBoiteAuxLettres().getBoite().add(msgAppel);
 		}
 		
@@ -52,24 +53,49 @@ public class Negociateur extends Agent {
 			}
 			// On regarde si on a reçu des messages
 			if(boiteAuxLettres.messageNonLu()){
+				List<Message> listeMsgPropose = new ArrayList<Message>();
+				// Récupération de tous les messages non lus
 				for(Message m : boiteAuxLettres.getBoite()){
 					if(!m.isLu()){
 						// Si le message est une PROPOSE
 						if(m.getAct().equalsIgnoreCase(Act.PROPOSE)){
-							Fournisseur f = (Fournisseur) m.getEmetteur();
-							if(m.getProposition() <= (budget - (budget * 50/100)) ||  derniereOffre >= m.getProposition()){
-								Message msgAcceptation = new Message(this, f, Act.ACCEPTATION, m.getProposition(), m.getNumeroOffre());
-								f.getBoiteAuxLettres().getBoite().add(msgAcceptation);
-								offreAccepte = true;
-							}
-							else {
-								derniereOffre = (budget - (budget * (6 - m.getNumeroOffre())/10));
-								Message msgContreProp = new Message(this, f, Act.CONTRE_PROPOSITION, derniereOffre, m.getNumeroOffre());
-								f.getBoiteAuxLettres().getBoite().add(msgContreProp);
-							}
+							listeMsgPropose.add(m);
 							m.setLu(true);
 						}
 					}
+				}
+				// Réponse à toutes les propositions
+				Float meilleurProposition = (float) 0;
+				Fournisseur meilleurFournisseur = null;
+				int numeroMeilleur = 0;
+				for(int i = 0; i < listeMsgPropose.size(); i++){
+					Message m = listeMsgPropose.get(i);
+					Fournisseur f = (Fournisseur) m.getEmetteur();
+					if(i == 0){
+						meilleurProposition = m.getProposition();
+						meilleurFournisseur = (Fournisseur) m.getEmetteur();
+						numeroMeilleur = m.getNumeroOffre();
+					}
+					else if(meilleurProposition > m.getProposition()){
+						// Envoie d'un message de refus pour le fournisseur qui propose une offre moins intéressante
+						Message msgRefus = new Message(this, meilleurFournisseur, Act.REFUS, meilleurProposition, numeroMeilleur);
+						meilleurFournisseur.getBoiteAuxLettres().getBoite().add(msgRefus);
+						
+						meilleurProposition = m.getProposition();
+						meilleurFournisseur = (Fournisseur) m.getEmetteur();
+						numeroMeilleur = m.getNumeroOffre();
+					}
+				}
+				// Envoie de la contre-proposition ou de l'acceptation au meilleur fournisseur
+				if(meilleurProposition <= (budget - (budget * 50/100)) ||  derniereOffre >= meilleurProposition){
+					Message msgAcceptation = new Message(this, meilleurFournisseur, Act.ACCEPTATION, meilleurProposition, numeroMeilleur);
+					meilleurFournisseur.getBoiteAuxLettres().getBoite().add(msgAcceptation);
+					offreAccepte = true;
+				}
+				else {
+					derniereOffre = (budget - (budget * (6 - numeroMeilleur)/10));
+					Message msgContreProp = new Message(this, meilleurFournisseur, Act.CONTRE_PROPOSITION, derniereOffre, numeroMeilleur);
+					meilleurFournisseur.getBoiteAuxLettres().getBoite().add(msgContreProp);
 				}
 			}
 			else {
